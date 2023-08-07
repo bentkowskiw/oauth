@@ -36,7 +36,7 @@ func NewConfig(fs fs.FS) *Settings {
 		log.Fatal(err)
 		panic(err)
 	}
-	if err := s.readOauthConfig("oauth"); err != nil {
+	if err := s.readOauthConfig("cfg/oauth.json"); err != nil {
 		log.Fatal(err)
 		panic(err)
 	}

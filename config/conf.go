@@ -4,25 +4,18 @@ import (
 	"encoding/json"
 	"io/fs"
 	"log"
-	"os"
 )
 
 const (
 	configFile        = "config"
-	defaultConfigFile = "/cfg/config.json"
+	defaultConfigFile = "cfg/config.json"
 )
 
 // ReadSettings Reads values from the provided file and stores all keys
 func (cfg *Settings) readSettings(filePath string) (err error) {
-
-	file, err := cfg.fileExists(filePath)
+	content, err := cfg.readFile(filePath)
 	if err != nil {
-		log.Fatal("NO CONFIG FOUND")
-		os.Exit(1)
-	}
-	var content []byte
-	if _, err = file.Read(content); err != nil {
-		panic(err)
+		return
 	}
 	log.Println("Configuration successfully loaded from file: ", filePath)
 
@@ -51,19 +44,11 @@ func (cfg *Settings) readSettings(filePath string) (err error) {
 }
 
 func (cfg *Settings) readOauthConfig(filePath string) (err error) {
-	file, err := cfg.fileExists(filePath)
+	content, err := cfg.readFile(filePath)
 	if err != nil {
-		log.Fatal("NO OAUTH FOUND")
-		os.Exit(1)
+		return
 	}
-	var content []byte
-	if _, err = file.Read(content); err != nil {
-		panic(err)
-	}
-	cfg.oAuth = &oAuth{
-		oAuthProviders: make(map[string]any),
-	}
-
+	cfg.oAuth = &oAuth{}
 	return cfg.oAuth.UnmarshalJSON(content)
 }
 
@@ -82,4 +67,19 @@ func (s *Settings) DbConfig() *db {
 
 func (s *Settings) Cors() []string {
 	return *s.cfg.CORS
+}
+
+func (cfg *Settings) readFile(fileName string) (b []byte, err error) {
+	file, err := cfg.fileExists(fileName)
+	if err != nil {
+		log.Fatal("NO " + fileName + " FOUND")
+		return
+	}
+	fi, err := file.Stat()
+	if err != nil {
+		return
+	}
+	b = make([]byte, fi.Size())
+	_, err = file.Read(b)
+	return
 }
