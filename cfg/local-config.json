@@ -1,0 +1,43 @@
+{
+    "server": {
+        "url": "https://bentkowski.io:8080",
+        "ssl_cert": "cfg/bentkowski.io.cer",
+        "ssl_key": "cfg/bentkowski.io.key"
+    },
+    "client": {
+        "url": "https://bentkowski.io:8080/gas/event/update"
+    },
+    "cors": [
+        "https://bentkowski.io",
+        "https://bentkowski.io:8080"
+    ],
+    "auth": {
+        "login_url_duration": "1m",
+        "access_token_secret": "+FIerIo/W71mnFDFAZ9knYWMASeps9f1QqSlJDaMbmjgN28vs4frnU1V0cfRK32e8Fu5Y1MLBf+WV/qBOdAAqjdmqI5zOLa32N2RZKPFb4glJQSAFTCD0pdEQNlcR0ARL6dNjx78oTnfsbz56v0cTJGoDou+qxdXkXIpmq8Wido=",
+        "refresh_token_secret": "etttJFgdZAIlKqzijsyQlrQHsXVsubACskmxXdhgULbLUCLPEapVycfdfBHkJ1LtJG3rNjzMbcWioLAZUFhNMpgwBbOzuspoWfqXQRvo24dQHWnBRjsRQR+Mp1ZTKR1zaAJzuy60fUrqpI8BvY8xcP3AabGEhuWjE/gCFdfit8s="
+    },
+    "secure": {
+        "disable": true,
+        "cipher_key": "cGFzc3BocmFzZXdoaWNobmVlZHN0b2JlMzJieXRlcyE="
+    },
+    "redis": {
+        "dsn": "redis:6379"
+    },
+    "sms": {
+        "pl_pl": {
+            "url": "smslabs.net.pl",
+            "api_key": "da1ef190fbc04db770e923a1a0c6a160a047d16c",
+            "api_secret": "d96c5c4a86c5527c50275d0e53d9fb8bcd9a45c3"
+        }
+    },
+    "db": {
+        "host": "postgres",
+        "port": 5435,
+        "schema": "gcalendar",
+        "ssl": "sslmode=disable",
+        "driver": "postgres",
+        "user": "user",
+        "password": "password",
+        "name": "gcalendar"
+    }
+}
