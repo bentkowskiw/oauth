@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  postgres:
+    build: ./db/.
+    ports:
+      - 5435:5432
+  adminer:
+    image: adminer
+    ports:
+      - 9090:8080
+    links:
+      - postgres
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+
+  backend:
+    build: .
+    ports:
+      - 8080:8080
+    links:
+      - "redis:redis"
+      - "postgres:postgres"
+
+    env_file:
+      - .env
+    environment:
+      - config=./cfg/config.json
+    volumes:
+      - ./cfg:/usr/src/app/cfg

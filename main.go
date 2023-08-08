@@ -46,9 +46,14 @@ func main() {
 
 	// initialize OAUTH for providers
 
+	// //google
+	// provider := oauth.New(google.Provider(), cch, cfg.OAuth())
+	// restoauth.NewHandler(nil, cch, provider, auth, cfg.Auth())
+	// errlib.PanicOnErr(err)
+
 	//instagram
-	insta := oauth.New(instagram.Provider(), cch, cfg.OAuth())
-	restoauth.NewHandler(nil, cch, insta, auth, cfg.Auth())
+	provider := oauth.New(instagram.Provider(), cch, cfg.OAuth())
+	restoauth.NewHandler(nil, cch, provider, auth, cfg.Auth()).AddRoutes()
 	errlib.PanicOnErr(err)
 
 	// endpoints protected with custom Authenticator

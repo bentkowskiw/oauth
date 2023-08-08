@@ -40,7 +40,6 @@ type client struct {
 
 type auth struct {
 	cors   *cors
-	issuer string
 	client *client
 	server *server
 	*environment

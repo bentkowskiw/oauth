@@ -20,7 +20,7 @@ func (cfg *Settings) readSettings(filePath string) (err error) {
 	log.Println("Configuration successfully loaded from file: ", filePath)
 
 	// Deserialize 1
-	if err := cfg.Unmarshal(content); err != nil {
+	if err := cfg.UnmarshalJSON(content); err != nil {
 		return err
 	}
 
@@ -40,6 +40,8 @@ func (cfg *Settings) readSettings(filePath string) (err error) {
 
 	cfg.cfg.Db.environment = cfg.environment
 
+	cfg.cfg.Auth.environment = cfg.environment
+
 	return
 }
 
@@ -52,9 +54,16 @@ func (cfg *Settings) readOauthConfig(filePath string) (err error) {
 	return cfg.oAuth.UnmarshalJSON(content)
 }
 
-func (c *Settings) Unmarshal(b []byte) error {
+func (c *Settings) UnmarshalJSON(b []byte) error {
 	c.cfg = &cfg{}
-	return json.Unmarshal(b, c.cfg)
+	if err := json.Unmarshal(b, c.cfg); err != nil {
+		return err
+	}
+	c.cfg.Auth.client = c.cfg.Client
+	c.cfg.Auth.server = c.cfg.Server
+	c.cfg.Auth.cors = c.cfg.CORS
+	c.cfg.Auth.environment = c.environment
+	return nil
 }
 
 func (cfg *Settings) fileExists(filename string) (file fs.File, err error) {
