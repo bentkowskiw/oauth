@@ -3,6 +3,7 @@ package oauth
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/google/uuid"
 	"golang.org/x/oauth2"
@@ -36,7 +37,7 @@ func (a *oAuth) RequestOAuthToken(ctx context.Context, sessionId, authCode strin
 	return a.config.Exchange(ctx, authCode)
 }
 
-func DefaultConfig(b []byte, e endpointer) (cfg *oauth2.Config, err error) {
+func DefaultConfig(b []byte, p provider) (cfg *oauth2.Config, err error) {
 	cf := defaultConfig{}
 	if err = json.Unmarshal(b, &cf); err != nil {
 		return
@@ -44,9 +45,13 @@ func DefaultConfig(b []byte, e endpointer) (cfg *oauth2.Config, err error) {
 	cfg = &oauth2.Config{
 		ClientID:     cf.ClientID,
 		ClientSecret: cf.ClientSecret,
-		RedirectURL:  cf.RedirectURL,
+		RedirectURL:  RedirectURL(p),
 		Scopes:       cf.Scopes,
-		Endpoint:     e.Endpoint(),
+		Endpoint:     p.Endpoint(),
 	}
 	return
+}
+
+func RedirectURL(p provider) string {
+	return fmt.Sprintf("%s/%s/callback", p.ServerURL(), p.Name())
 }

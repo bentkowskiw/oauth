@@ -1,15 +1,15 @@
 {
     "server": {
-        "url": "https://:8080",
-        "ssl_cert": "cfg/bentkowski.io.cer",
-        "ssl_key": "cfg/bentkowski.io.key"
+        "url": "https://oauth.habitmasters.app:8080",
+        "ssl_cert": "cfg/oauth.habitmasters.app.cer",
+        "ssl_key": "cfg/oauth.habitmasters.app.key"
     },
     "client": {
-        "url": "https://bentkowski.io:8080/gas/event/update"
+        "url": "https://oauth.habitmasters.app:8080/gas/event/update"
     },
     "cors": [
-        "https://bentkowski.io",
-        "https://bentkowski.io:8080"
+        "https://oauth.habitmasters.app",
+        "https://oauth.habitmasters.app:8080"
     ],
     "auth": {
         "login_url_duration": "1m",

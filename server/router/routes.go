@@ -11,7 +11,9 @@ func addRoute(path, method string, handler http.Handler, prefixes ...string) {
 		build := strings.Builder{}
 		build.WriteRune('/')
 		for i, pre := range prefixes {
-			pre = strings.Trim(pre, "/")
+			if pre = strings.Trim(pre, "/"); pre == "" {
+				continue
+			}
 			build.WriteString(pre)
 			if i+1 < len(prefixes) {
 				build.WriteRune('/')

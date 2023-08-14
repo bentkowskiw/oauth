@@ -52,7 +52,7 @@ func main() {
 	// errlib.PanicOnErr(err)
 
 	//instagram
-	provider := oauth.New(instagram.Provider(), cch, cfg.OAuth())
+	provider := oauth.New(instagram.Provider(cfg.Server()), cch, cfg.OAuth())
 	restoauth.NewHandler(nil, cch, provider, auth, cfg.Auth()).AddRoutes()
 	errlib.PanicOnErr(err)
 

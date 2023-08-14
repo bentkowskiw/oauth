@@ -41,10 +41,8 @@ type persister interface {
 }
 
 type provider interface {
+	Endpoint() oauth2.Endpoint
 	Name() string
 	OAuthConfig([]byte) (*oauth2.Config, error)
-}
-
-type endpointer interface {
-	Endpoint() oauth2.Endpoint
+	ServerURL() string
 }

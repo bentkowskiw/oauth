@@ -8,25 +8,23 @@
             "token_uri": "https://oauth2.googleapis.com/token",
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
             "client_secret": "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",
-            "redirect_uris": [
-                "https://bentkowski.io:8080/oauth/?service=google.com"
-            ],
             "javascript_origins": [
-                "https://bentkowski.io:8080"
+                "https://oauth.habitmasters.app:8080"
+            ],
+            "scopes": [
+                ""
             ]
         },
-        "instagram": {
-            "client_id": "523307349835-t8ra4bukivmaiedhmv2cgvktam8vrkks.apps.googleusercontent.com",
-            "project_id": "serene-courier-343214",
-            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-            "token_uri": "https://oauth2.googleapis.com/token",
-            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-            "client_secret": "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",
-            "redirect_uris": [
-                "https://bentkowski.io:8080/oauth/?service=google.com"
-            ],
-            "javascript_origins": [
-                "https://bentkowski.io:8080"
+        "meta": {
+            "client_id": "138572869294066",
+            "app_secret": "1c5692612f13fb767202e75981d81285",
+            "client_secret": "390e0ff04cc95c2917e60faa33c1ce4e"
+        },
+        "example": {
+            "client_id": "client_id",
+            "client_secret": "client_secret",
+            "scopes": [
+                "scope"
             ]
         }
     }

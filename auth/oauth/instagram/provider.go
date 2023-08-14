@@ -14,3 +14,7 @@ func (p *provider) OAuthConfig(b []byte) (cfg *oauth2.Config, err error) {
 func (p *provider) Endpoint() oauth2.Endpoint {
 	return p.endpoint
 }
+
+func (p *provider) ServerURL() string {
+	return p.serverURL
+}
