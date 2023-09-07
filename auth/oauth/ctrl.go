@@ -15,9 +15,9 @@ func (a *oAuth) ProviderName() string {
 
 // LoginSessionURL creates new oauth session.
 // Returns oauth loginURL associated with session
-func (a *oAuth) LoginSessionURL(ctx context.Context) (sessionID, url string, err error) {
-	sessionID = uuid.NewString()
-	url = a.config.AuthCodeURL(sessionID, oauth2.AccessTypeOffline)
+func (a *oAuth) LoginSessionURL(ctx context.Context) (sessionID SessionUUID, url string, err error) {
+	sessionID = SessionUUID(uuid.NewString())
+	url = a.config.AuthCodeURL(string(sessionID), oauth2.AccessTypeOffline)
 	err = a.per.Save(
 		ctx,
 		newOAuthSession(a.providerName, sessionID),
@@ -27,7 +27,7 @@ func (a *oAuth) LoginSessionURL(ctx context.Context) (sessionID, url string, err
 }
 
 // RequestOAuthToken checks is session exists and returns token
-func (a *oAuth) RequestOAuthToken(ctx context.Context, sessionId, authCode string) (tokenOauth *oauth2.Token, err error) {
+func (a *oAuth) RequestOAuthToken(ctx context.Context, sessionId SessionUUID, authCode string) (tokenOauth *oauth2.Token, err error) {
 	if err = a.per.Read(
 		ctx,
 		newOAuthSession(a.providerName, sessionId),
@@ -42,12 +42,16 @@ func DefaultConfig(b []byte, p provider) (cfg *oauth2.Config, err error) {
 	if err = json.Unmarshal(b, &cf); err != nil {
 		return
 	}
+
 	cfg = &oauth2.Config{
 		ClientID:     cf.ClientID,
 		ClientSecret: cf.ClientSecret,
 		RedirectURL:  RedirectURL(p),
 		Scopes:       cf.Scopes,
-		Endpoint:     p.Endpoint(),
+		Endpoint:     oauth2.Endpoint{
+			AuthURL: cf.AuthURL,
+			TokenURL: cf.TokenURL,
+		},
 	}
 	return
 }

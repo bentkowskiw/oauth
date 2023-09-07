@@ -7,7 +7,7 @@ type Closer interface {
 }
 
 type configer interface {
-	GetServerURL() url.URL
-	GetKeyPath() string
-	GetCertPath() string
+	ServerURL() *url.URL
+	KeyPath() string
+	CertPath() string
 }

@@ -6,13 +6,17 @@ type defaultConfig struct {
 	// ClientSecret is the application's secret.
 	ClientSecret string `json:"client_secret"`
 	// Scope specifies optional requested permissions.
-	Scopes []string `json:"scopes"`
+	Scopes   []string `json:"scopes"`
+	AuthURL  string   `json:"auth_uri"`
+	TokenURL string   `json:"token_uri"`
 }
 
 type oAuthSession struct {
 	sessionData
 }
 type sessionData struct {
-	ProviderName string `json:"providerName"`
-	SessionUUID  string `json:"sessionUUID"`
+	ProviderName string      `json:"providerName"`
+	SessionUUID  SessionUUID `json:"sessionUUID"`
 }
+
+type SessionUUID string

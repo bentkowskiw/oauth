@@ -10,7 +10,7 @@ type Settings struct {
 	flags       *flags
 	environment *environment
 	fs          fs.FS
-	cfg         *cfg 
+	cfg         *cfg
 	oAuth       *oAuth
 	generic     map[string]interface{}
 }
@@ -87,4 +87,5 @@ type flags struct {
 type oAuth struct {
 	oAuthProviders  map[string]any
 	sessionDuration time.Duration
+	*cfg
 }

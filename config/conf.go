@@ -50,7 +50,9 @@ func (cfg *Settings) readOauthConfig(filePath string) (err error) {
 	if err != nil {
 		return
 	}
-	cfg.oAuth = &oAuth{}
+	cfg.oAuth = &oAuth{
+		cfg: cfg.cfg,
+	}
 	return cfg.oAuth.UnmarshalJSON(content)
 }
 

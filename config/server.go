@@ -11,19 +11,19 @@ func (s *server) prefix() []string {
 
 }
 
-func (s *server) GetServerURL() url.URL {
+func (s *server) ServerURL() *url.URL {
 	u, err := url.Parse(s.URL)
 	if err != nil {
 		panic(err)
 	}
-	return *u
+	return u
 }
 
-func (s *server) GetCertPath() string {
+func (s *server) CertPath() string {
 	return s.SslCert
 }
 
-func (s *server) GetKeyPath() string {
+func (s *server) KeyPath() string {
 	return s.SslKey
 }
 

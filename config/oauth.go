@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"log"
+	"net/url"
 	"time"
 )
 
@@ -42,4 +43,7 @@ func (o *oAuth) UnmarshalJSON(b []byte) (err error) {
 		err = nil
 	}
 	return
+}
+func (o *oAuth) ServerURL() *url.URL {
+	return o.cfg.Server.ServerURL()
 }

@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/url"
 
+	"github.com/oauth/auth/oauth"
+	"github.com/oauth/lib/errlib"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/instagram"
 )
@@ -15,14 +17,23 @@ type provider struct {
 	serverURL string
 }
 
-func Provider(cfg configer) *provider {
-	return &provider{
-		name:     "instagram",
-		endpoint: instagram.Endpoint,
-		serverURL: fmt.Sprint(cfg.GetServerURL()),
+func Provider(cfg configer) (p *provider) {
+	name := "instagram"
+	p = &provider{
+		name:      name,
+		endpoint:  instagram.Endpoint,
+		serverURL: fmt.Sprint(cfg.ServerURL()),
 	}
+	b, err := cfg.ConfigData(name)
+	errlib.PanicOnErr(err)
+
+	p.Config, err = oauth.DefaultConfig(b, p)
+	errlib.PanicOnErr(err)
+
+	return
 }
 
 type configer interface {
-	GetServerURL() url.URL
+	ConfigData(string) ([]byte, error)
+	ServerURL() *url.URL
 }

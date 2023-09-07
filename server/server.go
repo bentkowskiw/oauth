@@ -14,16 +14,16 @@ import (
 // Run starts the http server
 func Run(cfg configer, h http.Handler, closers []Closer) {
 	// Create new server
-	u := cfg.GetServerURL()
+	u := cfg.ServerURL()
 
 	// Initialize http server
-	srv, err := newServer(u, h, closers, cfg)
+	srv, err := newServer(*u, h, closers, cfg)
 	if err != nil {
 		log.Println("NewServer", err)
 		os.Exit(0)
 	}
 	// Start http server
-	srv.run(u)
+	srv.run(*u)
 }
 
 // newServer configured to serve API
@@ -53,7 +53,7 @@ func (srv *Server) run(hostname url.URL) {
 
 	go func() {
 		log.Printf("Starting API on %s", srv.Addr)
-		err := srv.ListenAndServeTLS(srv.GetCertPath(), srv.GetKeyPath())
+		err := srv.ListenAndServeTLS(srv.CertPath(), srv.KeyPath())
 		if err != http.ErrServerClosed {
 			panic(err)
 		}

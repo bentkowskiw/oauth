@@ -1,18 +1,25 @@
 package restoauth
 
 import (
+	"errors"
+	"log"
 	"net/http"
 
+	"github.com/oauth/auth/oauth"
 	"github.com/oauth/lib/httplib"
 )
 
 // oauth is service authorization callback function.
 // It gets called by the OAuth external service. Saves token data.[2]
 func (h *Handler) callback(w http.ResponseWriter, r *http.Request) {
+	if err := checkError(r); err != nil {
+		log.Fatal(err)
+		return
+	}
 	authCode := r.FormValue("code")
 	sessionId := r.FormValue("state")
 	ctx := r.Context()
-	tokenOauth, err := h.oa.RequestOAuthToken(ctx, sessionId, authCode)
+	tokenOauth, err := h.oa.RequestOAuthToken(ctx, oauth.SessionUUID(sessionId), authCode)
 	if err != nil {
 		httplib.SendError(w, err)
 		return
@@ -70,7 +77,7 @@ func (h *Handler) generateLoginURL(w http.ResponseWriter, r *http.Request) (url 
 		return
 	}
 	// send sessionId as cookie
-	cookie, err := h.c.CreateSessionCookie(session)
+	cookie, err := h.c.CreateSessionCookie(string(session))
 	if err != nil {
 		return
 	}
@@ -82,4 +89,15 @@ func (h *Handler) deauthorize(w http.ResponseWriter, r *http.Request) {
 
 	// TODO: deauthorize by provider
 
+}
+
+func checkError(r *http.Request) error {
+	if v := r.FormValue("error"); v != "" {
+		return errors.Join(
+			errors.New(v),
+			errors.New(r.FormValue("error_reason")),
+			errors.New(r.FormValue("error_description")),
+		)
+	}
+	return nil
 }

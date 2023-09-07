@@ -5,20 +5,15 @@ import (
 	"time"
 
 	"github.com/oauth/data"
-	"github.com/oauth/lib/errlib"
 	"golang.org/x/oauth2"
 )
 
 const defaultSessionDuration = time.Second * 30
 
 func New(provider provider, per persister, con configer) *oAuth {
-	b, err := con.ConfigData(provider.Name())
-	errlib.PanicOnErr(err)
-	config, err := provider.OAuthConfig(b)
-	errlib.PanicOnErr(err)
 	return &oAuth{
 		providerName:    provider.Name(),
-		config:          config,
+		config:          provider.OAuthConfig(),
 		per:             per,
 		sessionDuration: con.SessionDuration(defaultSessionDuration),
 	}
@@ -33,7 +28,6 @@ type oAuth struct {
 
 type configer interface {
 	SessionDuration(defaultDur time.Duration) time.Duration
-	ConfigData(string) ([]byte, error)
 }
 type persister interface {
 	Read(context.Context, data.Readabler) error
@@ -43,6 +37,6 @@ type persister interface {
 type provider interface {
 	Endpoint() oauth2.Endpoint
 	Name() string
-	OAuthConfig([]byte) (*oauth2.Config, error)
+	OAuthConfig() *oauth2.Config
 	ServerURL() string
 }

@@ -6,6 +6,7 @@ import (
 	"net/url"
 	"time"
 
+	"github.com/oauth/auth/oauth"
 	"github.com/oauth/data"
 	"github.com/oauth/model"
 	"golang.org/x/oauth2"
@@ -32,8 +33,8 @@ func NewHandler(usr userer, pers persister, oa oauther, c customAuther, conf con
 }
 
 type oauther interface {
-	RequestOAuthToken(_ context.Context, sessionId, authCode string) (*oauth2.Token, error)
-	LoginSessionURL(context.Context) (string, string, error)
+	RequestOAuthToken(_ context.Context, sessionId oauth.SessionUUID, authCode string) (*oauth2.Token, error)
+	LoginSessionURL(context.Context) (oauth.SessionUUID, string, error)
 	ProviderName() string
 }
 

@@ -1,4 +1,4 @@
-package instagram
+package facebook
 
 import (
 	"golang.org/x/oauth2"

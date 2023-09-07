@@ -15,7 +15,7 @@ func (s oAuthSession) Key() string {
 	return fmt.Sprintf("%s-%s", s.ProviderName, s.SessionUUID)
 }
 
-func newOAuthSession(providerName, sessionId string) *oAuthSession {
+func newOAuthSession(providerName string, sessionId SessionUUID) *oAuthSession {
 	return &oAuthSession{
 		sessionData: sessionData{
 			ProviderName: providerName,

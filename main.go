@@ -8,6 +8,8 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/oauth/auth/custom"
 	"github.com/oauth/auth/oauth"
+	"github.com/oauth/auth/oauth/facebook"
+	"github.com/oauth/auth/oauth/google"
 	"github.com/oauth/auth/oauth/instagram"
 	"github.com/oauth/config"
 	"github.com/oauth/constants"
@@ -46,16 +48,18 @@ func main() {
 
 	// initialize OAUTH for providers
 
-	// //google
-	// provider := oauth.New(google.Provider(), cch, cfg.OAuth())
-	// restoauth.NewHandler(nil, cch, provider, auth, cfg.Auth())
-	// errlib.PanicOnErr(err)
+	//google
+	provider := oauth.New(google.Provider(cfg.OAuth()), cch, cfg.OAuth())
+	restoauth.NewHandler(nil, cch, provider, auth, cfg.Auth())
 
 	//instagram
-	provider := oauth.New(instagram.Provider(cfg.Server()), cch, cfg.OAuth())
+	provider = oauth.New(instagram.Provider(cfg.OAuth()), cch, cfg.OAuth())
 	restoauth.NewHandler(nil, cch, provider, auth, cfg.Auth()).AddRoutes()
-	errlib.PanicOnErr(err)
 
+	//facebook
+	provider = oauth.New(facebook.Provider(cfg.OAuth()), cch, cfg.OAuth())
+	restoauth.NewHandler(nil, cch, provider, auth, cfg.Auth()).AddRoutes()
+	
 	// endpoints protected with custom Authenticator
 	initMiddleware(router.Subrouter(constants.ApiPrefix).Router, middleware.NewAuthHandler(auth).Authenticate)
 

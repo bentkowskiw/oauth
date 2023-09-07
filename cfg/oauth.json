@@ -12,19 +12,25 @@
                 "https://oauth.habitmasters.app:8080"
             ],
             "scopes": [
-                ""
+                "userinfo.email"
             ]
         },
-        "meta": {
+        "facebook": {
             "client_id": "138572869294066",
-            "app_secret": "1c5692612f13fb767202e75981d81285",
-            "client_secret": "390e0ff04cc95c2917e60faa33c1ce4e"
-        },
-        "example": {
-            "client_id": "client_id",
-            "client_secret": "client_secret",
+            "client_secret": "c5692612f13fb767202e75981d81285",
+            "auth_uri": "https://www.facebook.com/v17.2/dialog/oauth",
+            "token_uri": "https://graph.facebook.com/v17.2/oauth/access_token",
             "scopes": [
-                "scope"
+                "email, public_profile"
+            ]
+        },
+        "instagram": {
+            "client_id": "138572869294066",
+            "client_secret": "c5692612f13fb767202e75981d81285",
+            "auth_uri": "https://api.instagram.com/oauth/authorize",
+            "token_uri": "https://api.instagram.com/oauth/access_token",
+            "scopes": [
+                "instagram_graph_user_profile"
             ]
         }
     }

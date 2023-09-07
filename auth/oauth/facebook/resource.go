@@ -1,13 +1,12 @@
-package google
+package facebook
 
 import (
-	"encoding/json"
+	"fmt"
 	"net/url"
 
 	"github.com/oauth/auth/oauth"
 	"github.com/oauth/lib/errlib"
 	"golang.org/x/oauth2"
-	"golang.org/x/oauth2/google"
 )
 
 type provider struct {
@@ -18,26 +17,18 @@ type provider struct {
 }
 
 func Provider(cfg configer) (p *provider) {
-	cr := cred{}
-	name := "google"
+	name := "facebook"
 	p = &provider{
+		serverURL: fmt.Sprint(cfg.ServerURL()),
 		name:      name,
-		endpoint:  google.Endpoint,
-		serverURL: cfg.ServerURL().String(),
 	}
 	b, err := cfg.ConfigData(name)
 	errlib.PanicOnErr(err)
-	errlib.PanicOnErr(
-		json.Unmarshal(b, &cr),
-	)
-	cr.RedirectURIs = []string{oauth.RedirectURL(p)}
-	b, err = json.Marshal(config{
-		Credentials: cr,
-	})
+
+	p.Config, err = oauth.DefaultConfig(b, p)
 	errlib.PanicOnErr(err)
-	p.Config, err = google.ConfigFromJSON(b, cr.Scopes...)
-	errlib.PanicOnErr(err)
-	return p
+
+	return
 }
 
 type configer interface {
