@@ -7,8 +7,12 @@ import (
 )
 
 const (
+	configPath    = "cfgpath"
+	defaultConfigPath = "./cfg"
 	configFile        = "config"
-	defaultConfigFile = "cfg/config.json"
+	defaultConfigFile = "config.json"
+	oauthFile         = "oauth"
+	defaultOauthFile  = "oauth.json"
 )
 
 // ReadSettings Reads values from the provided file and stores all keys

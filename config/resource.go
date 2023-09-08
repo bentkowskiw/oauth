@@ -1,44 +1,48 @@
 package config
 
 import (
-	"io/fs"
 	"log"
+	"os"
 )
 
 type prefixer interface {
 	prefix() []string
 }
 
-func NewConfig(fs fs.FS) *Settings {
+func NewConfig() *Settings {
 	env := &environment{
 		variable: make(map[string]string),
 	}
 	env.read()
-
 	s := &Settings{
 		flags:       varFlags,
 		environment: env,
-		fs:          fs,
 	}
+	dir := s.getFlagOrEnv(configPath, defaultConfigPath)
+	s.fs = os.DirFS(dir)
 
-	cfgPath := ""
-	if cfgPathPtr, ok := s.flags.GetFlag(configFile); ok {
-		cfgPath = *cfgPathPtr
-	}
-	if len(cfgPath) == 0 {
-		cfgPath, _ = s.environment.get(configFile, nil)
-	}
-	if len(cfgPath) == 0 {
-		cfgPath = defaultConfigFile
-	}
-
+	cfgPath := s.getFlagOrEnv(configFile, defaultConfigFile)
 	if err := s.readSettings(cfgPath); err != nil {
 		log.Fatal(err)
 		panic(err)
 	}
-	if err := s.readOauthConfig("cfg/oauth.json"); err != nil {
+	oauthPath := s.getFlagOrEnv(oauthFile, defaultOauthFile)
+	if err := s.readOauthConfig(oauthPath); err != nil {
 		log.Fatal(err)
 		panic(err)
 	}
 	return s
+}
+
+func (s *Settings) getFlagOrEnv(name, defaultValue string) (cfgPath string) {
+	if cfgPathPtr, ok := s.flags.GetFlag(name); ok {
+		cfgPath = *cfgPathPtr
+	}
+	if len(cfgPath) == 0 {
+		cfgPath, _ = s.environment.get(name, nil)
+	}
+	if len(cfgPath) == 0 {
+		cfgPath = defaultValue
+	}
+	return
 }

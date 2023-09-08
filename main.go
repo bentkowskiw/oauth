@@ -2,7 +2,6 @@
 package main
 
 import (
-	"embed"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -22,14 +21,9 @@ import (
 	"github.com/oauth/server/router"
 )
 
-var (
-	//go:embed cfg
-	configFiles embed.FS
-)
-
 func main() {
 
-	cfg := config.NewConfig(configFiles)
+	cfg := config.NewConfig()
 
 	// CRYPTO
 	var crypter security.Crypter
@@ -59,7 +53,7 @@ func main() {
 	//facebook
 	provider = oauth.New(facebook.Provider(cfg.OAuth()), cch, cfg.OAuth())
 	restoauth.NewHandler(nil, cch, provider, auth, cfg.Auth()).AddRoutes()
-	
+
 	// endpoints protected with custom Authenticator
 	initMiddleware(router.Subrouter(constants.ApiPrefix).Router, middleware.NewAuthHandler(auth).Authenticate)
 

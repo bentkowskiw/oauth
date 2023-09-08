@@ -19,7 +19,7 @@ services:
   backend:
     build: .
     ports:
-      - 8080:8080
+      - 443:8080
     links:
       - "redis:redis"
       - "postgres:postgres"
@@ -28,5 +28,6 @@ services:
       - .env
     environment:
       - config=./cfg/config.json
+      - oauth= ./cfg/oauth.json
     volumes:
       - ./cfg:/usr/src/app/cfg
