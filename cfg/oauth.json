@@ -9,7 +9,7 @@
             "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
             "client_secret": "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",
             "javascript_origins": [
-                "https://oauth.habitmasters.app:8080"
+                "https://oauth.habitmasters.app:7070"
             ],
             "scopes": [
                 "userinfo.email"

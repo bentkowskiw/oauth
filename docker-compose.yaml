@@ -17,9 +17,9 @@ services:
       - 6379:6379
 
   backend:
-    build: .
+    build: --no-cache .
     ports:
-      - 443:8080
+      - 443:7070
     links:
       - "redis:redis"
       - "postgres:postgres"
