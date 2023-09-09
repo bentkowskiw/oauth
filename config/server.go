@@ -19,12 +19,7 @@ func (s *server) ServerURL() *url.URL {
 	return u
 }
 func (s *server) BindURL() *url.URL {
-	u, err := url.Parse(s.URL)
-	if err != nil {
-		panic(err)
-	}
-	uS := u.Scheme + "://localhost:" + u.Port()
-	u, err = url.Parse(uS)
+	u, err := url.Parse(s.Bind)
 	if err != nil {
 		panic(err)
 	}

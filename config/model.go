@@ -30,6 +30,7 @@ type cfg struct {
 type server struct {
 	*environment
 	URL     string `json:"url"`
+	Bind    string `json:"bind_url"`
 	SslCert string `json:"ssl_cert"`
 	SslKey  string `json:"ssl_key"`
 }
