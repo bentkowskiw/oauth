@@ -14,7 +14,7 @@ import (
 // Run starts the http server
 func Run(cfg configer, h http.Handler, closers []Closer) {
 	// Create new server
-	u := cfg.ServerURL()
+	u := cfg.BindURL()
 
 	// Initialize http server
 	srv, err := newServer(*u, h, closers, cfg)
