@@ -17,7 +17,7 @@ services:
       - 6379:6379
 
   backend:
-    build: --no-cache .
+    build: .
     ports:
       - 443:7070
     links:
