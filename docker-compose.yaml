@@ -19,7 +19,7 @@ services:
   backend:
     build: .
     ports:
-      - 7070:7070
+      - 443:443
     links:
       - "redis:redis"
       - "postgres:postgres"
