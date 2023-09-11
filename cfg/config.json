@@ -3,7 +3,7 @@
         "url": "https://oauth.habitmasters.app:7070",
         "ssl_cert": "cfg/oauth.habitmasters.app.cer",
         "ssl_key": "cfg/oauth.habitmasters.app.key",
-        "bind_url": "https://0.0.0.0:7070"
+        "bind_url": "https://0.0.0.0"
     },
     "client": {
         "url": "https://oauth.habitmasters.app:7070/gas/event/update"
